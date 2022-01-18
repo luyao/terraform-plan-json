@@ -1,0 +1,627 @@
+{
+  "format_version": "0.2",
+  "terraform_version": "1.0.11",
+  "planned_values": {
+    "outputs": {
+      "file": {
+        "sensitive": false,
+        "value": "terraform {\n  required_providers {\n    local = {\n      version = \"2.1.0\"\n      source = \"hashicorp.com/local/local\"\n    }\n\n  }\n}\n\ndata \"local_file\" \"input\" {\n  filename = \"./main.tf\"\n}\n\nresource \"local_file\" \"drift-file\" {\n  lifecycle {\n    create_before_destroy = true\n  }\n  content     = \"drift file\"\n  filename = \"./tmp/drift-file.txt\"\n  file_permission = \"0640\"\n}\n\nresource \"local_file\" \"replace-file\" {\n  lifecycle {\n    create_before_destroy = true\n  }\n  content     = \"replace file\"\n  filename = \"./tmp/replace-file.txt\"\n  file_permission = \"0770\"\n}\n\nresource \"local_file\" \"multi-file\" {\n  count = 2\n  content     = \"multi file ${count.index}\"\n  filename = \"./tmp/multi-file-${count.index}.txt\"\n}\n\n#resource \"local_file\" \"destroy-file\" {\n#  content     = \"destroy file\"\n#  filename = \"./tmp/destroy-file.txt\"\n#}\n\nresource \"local_file\" \"foreach-file\" {\n  for_each = toset( [\"first\", \"second\", \"Third\"] )\n  content     = \"foreach file ${each.key}\"\n  filename = \"./tmp/foreach-file-${each.key}.txt\"\n}\n\noutput \"file\" {\n  value = data.local_file.input.content\n}\n"
+      }
+    },
+    "root_module": {
+      "resources": [
+        {
+          "address": "local_file.drift-file",
+          "mode": "managed",
+          "type": "local_file",
+          "name": "drift-file",
+          "provider_name": "hashicorp.com/local/local",
+          "schema_version": 0,
+          "values": {
+            "content": "drift file",
+            "content_base64": null,
+            "directory_permission": "0777",
+            "file_permission": "0640",
+            "filename": "./tmp/drift-file.txt",
+            "sensitive_content": null,
+            "source": null
+          },
+          "sensitive_values": {}
+        },
+        {
+          "address": "local_file.foreach-file[\"Third\"]",
+          "mode": "managed",
+          "type": "local_file",
+          "name": "foreach-file",
+          "index": "Third",
+          "provider_name": "hashicorp.com/local/local",
+          "schema_version": 0,
+          "values": {
+            "content": "foreach file Third",
+            "content_base64": null,
+            "directory_permission": "0777",
+            "file_permission": "0777",
+            "filename": "./tmp/foreach-file-Third.txt",
+            "sensitive_content": null,
+            "source": null
+          },
+          "sensitive_values": {}
+        },
+        {
+          "address": "local_file.foreach-file[\"first\"]",
+          "mode": "managed",
+          "type": "local_file",
+          "name": "foreach-file",
+          "index": "first",
+          "provider_name": "hashicorp.com/local/local",
+          "schema_version": 0,
+          "values": {
+            "content": "foreach file first",
+            "content_base64": null,
+            "directory_permission": "0777",
+            "file_permission": "0777",
+            "filename": "./tmp/foreach-file-first.txt",
+            "sensitive_content": null,
+            "source": null
+          },
+          "sensitive_values": {}
+        },
+        {
+          "address": "local_file.foreach-file[\"second\"]",
+          "mode": "managed",
+          "type": "local_file",
+          "name": "foreach-file",
+          "index": "second",
+          "provider_name": "hashicorp.com/local/local",
+          "schema_version": 0,
+          "values": {
+            "content": "foreach file second",
+            "content_base64": null,
+            "directory_permission": "0777",
+            "file_permission": "0777",
+            "filename": "./tmp/foreach-file-second.txt",
+            "sensitive_content": null,
+            "source": null
+          },
+          "sensitive_values": {}
+        },
+        {
+          "address": "local_file.multi-file[0]",
+          "mode": "managed",
+          "type": "local_file",
+          "name": "multi-file",
+          "index": 0,
+          "provider_name": "hashicorp.com/local/local",
+          "schema_version": 0,
+          "values": {
+            "content": "multi file 0",
+            "content_base64": null,
+            "directory_permission": "0777",
+            "file_permission": "0777",
+            "filename": "./tmp/multi-file-0.txt",
+            "sensitive_content": null,
+            "source": null
+          },
+          "sensitive_values": {}
+        },
+        {
+          "address": "local_file.multi-file[1]",
+          "mode": "managed",
+          "type": "local_file",
+          "name": "multi-file",
+          "index": 1,
+          "provider_name": "hashicorp.com/local/local",
+          "schema_version": 0,
+          "values": {
+            "content": "multi file 1",
+            "content_base64": null,
+            "directory_permission": "0777",
+            "file_permission": "0777",
+            "filename": "./tmp/multi-file-1.txt",
+            "sensitive_content": null,
+            "source": null
+          },
+          "sensitive_values": {}
+        },
+        {
+          "address": "local_file.replace-file",
+          "mode": "managed",
+          "type": "local_file",
+          "name": "replace-file",
+          "provider_name": "hashicorp.com/local/local",
+          "schema_version": 0,
+          "values": {
+            "content": "replace file",
+            "content_base64": null,
+            "directory_permission": "0777",
+            "file_permission": "0770",
+            "filename": "./tmp/replace-file.txt",
+            "sensitive_content": null,
+            "source": null
+          },
+          "sensitive_values": {}
+        }
+      ]
+    }
+  },
+  "resource_drift": [
+    {
+      "address": "local_file.drift-file",
+      "mode": "managed",
+      "type": "local_file",
+      "name": "drift-file",
+      "provider_name": "hashicorp.com/local/local",
+      "change": {
+        "actions": [
+          "delete"
+        ],
+        "before": {
+          "content": "drift file",
+          "content_base64": null,
+          "directory_permission": "0777",
+          "file_permission": "0640",
+          "filename": "./tmp/drift-file.txt",
+          "id": "45b58de1ae4a58a48a3848b490cc96ec12a4c854",
+          "sensitive_content": null,
+          "source": null
+        },
+        "after": null,
+        "before_sensitive": {},
+        "after_sensitive": false
+      }
+    }
+  ],
+  "resource_changes": [
+    {
+      "address": "local_file.destroy-file",
+      "mode": "managed",
+      "type": "local_file",
+      "name": "destroy-file",
+      "provider_name": "hashicorp.com/local/local",
+      "change": {
+        "actions": [
+          "delete"
+        ],
+        "before": {
+          "content": "destroy file",
+          "content_base64": null,
+          "directory_permission": "0777",
+          "file_permission": "0777",
+          "filename": "./tmp/destroy-file.txt",
+          "id": "ea93d8417149e6f5462e45a698375ccc3a2f12bd",
+          "sensitive_content": null,
+          "source": null
+        },
+        "after": null,
+        "after_unknown": {},
+        "before_sensitive": {
+          "sensitive_content": true
+        },
+        "after_sensitive": false
+      }
+    },
+    {
+      "address": "local_file.drift-file",
+      "mode": "managed",
+      "type": "local_file",
+      "name": "drift-file",
+      "provider_name": "hashicorp.com/local/local",
+      "change": {
+        "actions": [
+          "create"
+        ],
+        "before": null,
+        "after": {
+          "content": "drift file",
+          "content_base64": null,
+          "directory_permission": "0777",
+          "file_permission": "0640",
+          "filename": "./tmp/drift-file.txt",
+          "sensitive_content": null,
+          "source": null
+        },
+        "after_unknown": {
+          "id": true
+        },
+        "before_sensitive": false,
+        "after_sensitive": {
+          "sensitive_content": true
+        }
+      }
+    },
+    {
+      "address": "local_file.foreach-file[\"Third\"]",
+      "mode": "managed",
+      "type": "local_file",
+      "name": "foreach-file",
+      "index": "Third",
+      "provider_name": "hashicorp.com/local/local",
+      "change": {
+        "actions": [
+          "create"
+        ],
+        "before": null,
+        "after": {
+          "content": "foreach file Third",
+          "content_base64": null,
+          "directory_permission": "0777",
+          "file_permission": "0777",
+          "filename": "./tmp/foreach-file-Third.txt",
+          "sensitive_content": null,
+          "source": null
+        },
+        "after_unknown": {
+          "id": true
+        },
+        "before_sensitive": false,
+        "after_sensitive": {
+          "sensitive_content": true
+        }
+      }
+    },
+    {
+      "address": "local_file.foreach-file[\"first\"]",
+      "mode": "managed",
+      "type": "local_file",
+      "name": "foreach-file",
+      "index": "first",
+      "provider_name": "hashicorp.com/local/local",
+      "change": {
+        "actions": [
+          "create"
+        ],
+        "before": null,
+        "after": {
+          "content": "foreach file first",
+          "content_base64": null,
+          "directory_permission": "0777",
+          "file_permission": "0777",
+          "filename": "./tmp/foreach-file-first.txt",
+          "sensitive_content": null,
+          "source": null
+        },
+        "after_unknown": {
+          "id": true
+        },
+        "before_sensitive": false,
+        "after_sensitive": {
+          "sensitive_content": true
+        }
+      }
+    },
+    {
+      "address": "local_file.foreach-file[\"second\"]",
+      "mode": "managed",
+      "type": "local_file",
+      "name": "foreach-file",
+      "index": "second",
+      "provider_name": "hashicorp.com/local/local",
+      "change": {
+        "actions": [
+          "create"
+        ],
+        "before": null,
+        "after": {
+          "content": "foreach file second",
+          "content_base64": null,
+          "directory_permission": "0777",
+          "file_permission": "0777",
+          "filename": "./tmp/foreach-file-second.txt",
+          "sensitive_content": null,
+          "source": null
+        },
+        "after_unknown": {
+          "id": true
+        },
+        "before_sensitive": false,
+        "after_sensitive": {
+          "sensitive_content": true
+        }
+      }
+    },
+    {
+      "address": "local_file.multi-file[0]",
+      "mode": "managed",
+      "type": "local_file",
+      "name": "multi-file",
+      "index": 0,
+      "provider_name": "hashicorp.com/local/local",
+      "change": {
+        "actions": [
+          "create"
+        ],
+        "before": null,
+        "after": {
+          "content": "multi file 0",
+          "content_base64": null,
+          "directory_permission": "0777",
+          "file_permission": "0777",
+          "filename": "./tmp/multi-file-0.txt",
+          "sensitive_content": null,
+          "source": null
+        },
+        "after_unknown": {
+          "id": true
+        },
+        "before_sensitive": false,
+        "after_sensitive": {
+          "sensitive_content": true
+        }
+      }
+    },
+    {
+      "address": "local_file.multi-file[1]",
+      "mode": "managed",
+      "type": "local_file",
+      "name": "multi-file",
+      "index": 1,
+      "provider_name": "hashicorp.com/local/local",
+      "change": {
+        "actions": [
+          "create"
+        ],
+        "before": null,
+        "after": {
+          "content": "multi file 1",
+          "content_base64": null,
+          "directory_permission": "0777",
+          "file_permission": "0777",
+          "filename": "./tmp/multi-file-1.txt",
+          "sensitive_content": null,
+          "source": null
+        },
+        "after_unknown": {
+          "id": true
+        },
+        "before_sensitive": false,
+        "after_sensitive": {
+          "sensitive_content": true
+        }
+      }
+    },
+    {
+      "address": "local_file.replace-file",
+      "mode": "managed",
+      "type": "local_file",
+      "name": "replace-file",
+      "provider_name": "hashicorp.com/local/local",
+      "change": {
+        "actions": [
+          "create",
+          "delete"
+        ],
+        "before": {
+          "content": "replace file",
+          "content_base64": null,
+          "directory_permission": "0777",
+          "file_permission": "0640",
+          "filename": "./tmp/replace-file.txt",
+          "id": "48e94a42c6990a1e7268dc7cc26ae91bd5ad0911",
+          "sensitive_content": null,
+          "source": null
+        },
+        "after": {
+          "content": "replace file",
+          "content_base64": null,
+          "directory_permission": "0777",
+          "file_permission": "0770",
+          "filename": "./tmp/replace-file.txt",
+          "sensitive_content": null,
+          "source": null
+        },
+        "after_unknown": {
+          "id": true
+        },
+        "before_sensitive": {
+          "sensitive_content": true
+        },
+        "after_sensitive": {
+          "sensitive_content": true
+        },
+        "replace_paths": [
+          [
+            "file_permission"
+          ]
+        ]
+      },
+      "action_reason": "replace_because_cannot_update"
+    }
+  ],
+  "output_changes": {
+    "file": {
+      "actions": [
+        "update"
+      ],
+      "before": "terraform {\n  required_providers {\n    local = {\n      version = \"2.1.0\"\n      source = \"hashicorp.com/local/local\"\n    }\n\n  }\n}\n\ndata \"local_file\" \"input\" {\n  filename = \"./main.tf\"\n}\n\nresource \"local_file\" \"drift-file\" {\n  lifecycle {\n    create_before_destroy = true\n  }\n  content     = \"drift file\"\n  filename = \"./tmp/drift-file.txt\"\n  file_permission = \"0640\"\n}\n\nresource \"local_file\" \"replace-file\" {\n  lifecycle {\n    create_before_destroy = true\n  }\n  content     = \"replace file\"\n  filename = \"./tmp/replace-file.txt\"\n  file_permission = \"0640\"\n}\n\n#resource \"local_file\" \"multi-file\" {\n#  count = 2\n#  content     = \"multi file ${count.index}\"\n#  filename = \"./tmp/multi-file-${count.index}.txt\"\n#}\n\nresource \"local_file\" \"destroy-file\" {\n  content     = \"destroy file\"\n  filename = \"./tmp/destroy-file.txt\"\n}\n\n#resource \"local_file\" \"foreach-file\" {\n#  for_each = toset( [\"first\", \"second\", \"Third\"] )\n#  content     = \"foreach file ${each.key}\"\n#  filename = \"./tmp/foreach-file-${each.key}.txt\"\n#}\n\noutput \"file\" {\n  value = data.local_file.input.content\n}\n",
+      "after": "terraform {\n  required_providers {\n    local = {\n      version = \"2.1.0\"\n      source = \"hashicorp.com/local/local\"\n    }\n\n  }\n}\n\ndata \"local_file\" \"input\" {\n  filename = \"./main.tf\"\n}\n\nresource \"local_file\" \"drift-file\" {\n  lifecycle {\n    create_before_destroy = true\n  }\n  content     = \"drift file\"\n  filename = \"./tmp/drift-file.txt\"\n  file_permission = \"0640\"\n}\n\nresource \"local_file\" \"replace-file\" {\n  lifecycle {\n    create_before_destroy = true\n  }\n  content     = \"replace file\"\n  filename = \"./tmp/replace-file.txt\"\n  file_permission = \"0770\"\n}\n\nresource \"local_file\" \"multi-file\" {\n  count = 2\n  content     = \"multi file ${count.index}\"\n  filename = \"./tmp/multi-file-${count.index}.txt\"\n}\n\n#resource \"local_file\" \"destroy-file\" {\n#  content     = \"destroy file\"\n#  filename = \"./tmp/destroy-file.txt\"\n#}\n\nresource \"local_file\" \"foreach-file\" {\n  for_each = toset( [\"first\", \"second\", \"Third\"] )\n  content     = \"foreach file ${each.key}\"\n  filename = \"./tmp/foreach-file-${each.key}.txt\"\n}\n\noutput \"file\" {\n  value = data.local_file.input.content\n}\n",
+      "after_unknown": false,
+      "before_sensitive": false,
+      "after_sensitive": false
+    }
+  },
+  "prior_state": {
+    "format_version": "0.2",
+    "terraform_version": "1.0.11",
+    "values": {
+      "outputs": {
+        "file": {
+          "sensitive": false,
+          "value": "terraform {\n  required_providers {\n    local = {\n      version = \"2.1.0\"\n      source = \"hashicorp.com/local/local\"\n    }\n\n  }\n}\n\ndata \"local_file\" \"input\" {\n  filename = \"./main.tf\"\n}\n\nresource \"local_file\" \"drift-file\" {\n  lifecycle {\n    create_before_destroy = true\n  }\n  content     = \"drift file\"\n  filename = \"./tmp/drift-file.txt\"\n  file_permission = \"0640\"\n}\n\nresource \"local_file\" \"replace-file\" {\n  lifecycle {\n    create_before_destroy = true\n  }\n  content     = \"replace file\"\n  filename = \"./tmp/replace-file.txt\"\n  file_permission = \"0770\"\n}\n\nresource \"local_file\" \"multi-file\" {\n  count = 2\n  content     = \"multi file ${count.index}\"\n  filename = \"./tmp/multi-file-${count.index}.txt\"\n}\n\n#resource \"local_file\" \"destroy-file\" {\n#  content     = \"destroy file\"\n#  filename = \"./tmp/destroy-file.txt\"\n#}\n\nresource \"local_file\" \"foreach-file\" {\n  for_each = toset( [\"first\", \"second\", \"Third\"] )\n  content     = \"foreach file ${each.key}\"\n  filename = \"./tmp/foreach-file-${each.key}.txt\"\n}\n\noutput \"file\" {\n  value = data.local_file.input.content\n}\n"
+        }
+      },
+      "root_module": {
+        "resources": [
+          {
+            "address": "data.local_file.input",
+            "mode": "data",
+            "type": "local_file",
+            "name": "input",
+            "provider_name": "hashicorp.com/local/local",
+            "schema_version": 0,
+            "values": {
+              "content": "terraform {\n  required_providers {\n    local = {\n      version = \"2.1.0\"\n      source = \"hashicorp.com/local/local\"\n    }\n\n  }\n}\n\ndata \"local_file\" \"input\" {\n  filename = \"./main.tf\"\n}\n\nresource \"local_file\" \"drift-file\" {\n  lifecycle {\n    create_before_destroy = true\n  }\n  content     = \"drift file\"\n  filename = \"./tmp/drift-file.txt\"\n  file_permission = \"0640\"\n}\n\nresource \"local_file\" \"replace-file\" {\n  lifecycle {\n    create_before_destroy = true\n  }\n  content     = \"replace file\"\n  filename = \"./tmp/replace-file.txt\"\n  file_permission = \"0770\"\n}\n\nresource \"local_file\" \"multi-file\" {\n  count = 2\n  content     = \"multi file ${count.index}\"\n  filename = \"./tmp/multi-file-${count.index}.txt\"\n}\n\n#resource \"local_file\" \"destroy-file\" {\n#  content     = \"destroy file\"\n#  filename = \"./tmp/destroy-file.txt\"\n#}\n\nresource \"local_file\" \"foreach-file\" {\n  for_each = toset( [\"first\", \"second\", \"Third\"] )\n  content     = \"foreach file ${each.key}\"\n  filename = \"./tmp/foreach-file-${each.key}.txt\"\n}\n\noutput \"file\" {\n  value = data.local_file.input.content\n}\n",
+              "content_base64": "dGVycmFmb3JtIHsKICByZXF1aXJlZF9wcm92aWRlcnMgewogICAgbG9jYWwgPSB7CiAgICAgIHZlcnNpb24gPSAiMi4xLjAiCiAgICAgIHNvdXJjZSA9ICJoYXNoaWNvcnAuY29tL2xvY2FsL2xvY2FsIgogICAgfQoKICB9Cn0KCmRhdGEgImxvY2FsX2ZpbGUiICJpbnB1dCIgewogIGZpbGVuYW1lID0gIi4vbWFpbi50ZiIKfQoKcmVzb3VyY2UgImxvY2FsX2ZpbGUiICJkcmlmdC1maWxlIiB7CiAgbGlmZWN5Y2xlIHsKICAgIGNyZWF0ZV9iZWZvcmVfZGVzdHJveSA9IHRydWUKICB9CiAgY29udGVudCAgICAgPSAiZHJpZnQgZmlsZSIKICBmaWxlbmFtZSA9ICIuL3RtcC9kcmlmdC1maWxlLnR4dCIKICBmaWxlX3Blcm1pc3Npb24gPSAiMDY0MCIKfQoKcmVzb3VyY2UgImxvY2FsX2ZpbGUiICJyZXBsYWNlLWZpbGUiIHsKICBsaWZlY3ljbGUgewogICAgY3JlYXRlX2JlZm9yZV9kZXN0cm95ID0gdHJ1ZQogIH0KICBjb250ZW50ICAgICA9ICJyZXBsYWNlIGZpbGUiCiAgZmlsZW5hbWUgPSAiLi90bXAvcmVwbGFjZS1maWxlLnR4dCIKICBmaWxlX3Blcm1pc3Npb24gPSAiMDc3MCIKfQoKcmVzb3VyY2UgImxvY2FsX2ZpbGUiICJtdWx0aS1maWxlIiB7CiAgY291bnQgPSAyCiAgY29udGVudCAgICAgPSAibXVsdGkgZmlsZSAke2NvdW50LmluZGV4fSIKICBmaWxlbmFtZSA9ICIuL3RtcC9tdWx0aS1maWxlLSR7Y291bnQuaW5kZXh9LnR4dCIKfQoKI3Jlc291cmNlICJsb2NhbF9maWxlIiAiZGVzdHJveS1maWxlIiB7CiMgIGNvbnRlbnQgICAgID0gImRlc3Ryb3kgZmlsZSIKIyAgZmlsZW5hbWUgPSAiLi90bXAvZGVzdHJveS1maWxlLnR4dCIKI30KCnJlc291cmNlICJsb2NhbF9maWxlIiAiZm9yZWFjaC1maWxlIiB7CiAgZm9yX2VhY2ggPSB0b3NldCggWyJmaXJzdCIsICJzZWNvbmQiLCAiVGhpcmQiXSApCiAgY29udGVudCAgICAgPSAiZm9yZWFjaCBmaWxlICR7ZWFjaC5rZXl9IgogIGZpbGVuYW1lID0gIi4vdG1wL2ZvcmVhY2gtZmlsZS0ke2VhY2gua2V5fS50eHQiCn0KCm91dHB1dCAiZmlsZSIgewogIHZhbHVlID0gZGF0YS5sb2NhbF9maWxlLmlucHV0LmNvbnRlbnQKfQo=",
+              "filename": "./main.tf",
+              "id": "361b904422c5a73315a7d71377aabf0872551c8a"
+            },
+            "sensitive_values": {}
+          },
+          {
+            "address": "local_file.destroy-file",
+            "mode": "managed",
+            "type": "local_file",
+            "name": "destroy-file",
+            "provider_name": "hashicorp.com/local/local",
+            "schema_version": 0,
+            "values": {
+              "content": "destroy file",
+              "content_base64": null,
+              "directory_permission": "0777",
+              "file_permission": "0777",
+              "filename": "./tmp/destroy-file.txt",
+              "id": "ea93d8417149e6f5462e45a698375ccc3a2f12bd",
+              "sensitive_content": null,
+              "source": null
+            },
+            "sensitive_values": {}
+          },
+          {
+            "address": "local_file.replace-file",
+            "mode": "managed",
+            "type": "local_file",
+            "name": "replace-file",
+            "provider_name": "hashicorp.com/local/local",
+            "schema_version": 0,
+            "values": {
+              "content": "replace file",
+              "content_base64": null,
+              "directory_permission": "0777",
+              "file_permission": "0640",
+              "filename": "./tmp/replace-file.txt",
+              "id": "48e94a42c6990a1e7268dc7cc26ae91bd5ad0911",
+              "sensitive_content": null,
+              "source": null
+            },
+            "sensitive_values": {}
+          }
+        ]
+      }
+    }
+  },
+  "configuration": {
+    "provider_config": {
+      "local": {
+        "name": "local",
+        "version_constraint": "2.1.0"
+      }
+    },
+    "root_module": {
+      "outputs": {
+        "file": {
+          "expression": {
+            "references": [
+              "data.local_file.input.content",
+              "data.local_file.input"
+            ]
+          }
+        }
+      },
+      "resources": [
+        {
+          "address": "local_file.drift-file",
+          "mode": "managed",
+          "type": "local_file",
+          "name": "drift-file",
+          "provider_config_key": "local",
+          "expressions": {
+            "content": {
+              "constant_value": "drift file"
+            },
+            "file_permission": {
+              "constant_value": "0640"
+            },
+            "filename": {
+              "constant_value": "./tmp/drift-file.txt"
+            }
+          },
+          "schema_version": 0
+        },
+        {
+          "address": "local_file.foreach-file",
+          "mode": "managed",
+          "type": "local_file",
+          "name": "foreach-file",
+          "provider_config_key": "local",
+          "expressions": {
+            "content": {
+              "references": [
+                "each.key"
+              ]
+            },
+            "filename": {
+              "references": [
+                "each.key"
+              ]
+            }
+          },
+          "schema_version": 0
+        },
+        {
+          "address": "local_file.multi-file",
+          "mode": "managed",
+          "type": "local_file",
+          "name": "multi-file",
+          "provider_config_key": "local",
+          "expressions": {
+            "content": {
+              "references": [
+                "count.index"
+              ]
+            },
+            "filename": {
+              "references": [
+                "count.index"
+              ]
+            }
+          },
+          "schema_version": 0,
+          "count_expression": {
+            "constant_value": 2
+          }
+        },
+        {
+          "address": "local_file.replace-file",
+          "mode": "managed",
+          "type": "local_file",
+          "name": "replace-file",
+          "provider_config_key": "local",
+          "expressions": {
+            "content": {
+              "constant_value": "replace file"
+            },
+            "file_permission": {
+              "constant_value": "0770"
+            },
+            "filename": {
+              "constant_value": "./tmp/replace-file.txt"
+            }
+          },
+          "schema_version": 0
+        },
+        {
+          "address": "data.local_file.input",
+          "mode": "data",
+          "type": "local_file",
+          "name": "input",
+          "provider_config_key": "local",
+          "expressions": {
+            "filename": {
+              "constant_value": "./main.tf"
+            }
+          },
+          "schema_version": 0
+        }
+      ]
+    }
+  }
+}
